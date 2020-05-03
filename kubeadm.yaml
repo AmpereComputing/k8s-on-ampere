@@ -1,0 +1,28 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+nodeRegistration:
+  criSocket: /var/run/containerd/containerd.sock
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+maxPods: 5000
+maxOpenFiles: 1048576
+# Allowing for CPU pinning and isolation in case of guaranteed QoS class
+cpuManagerPolicy: static
+systemReserved:
+  cpu: 500m
+  memory: 256M
+kubeReserved:
+  cpu: 500m
+  memory: 256M
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+controllerManager:
+  extraArgs:
+    node-cidr-mask-size: "20"
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+

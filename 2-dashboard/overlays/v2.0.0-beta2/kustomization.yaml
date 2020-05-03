@@ -1,0 +1,7 @@
+resources:
+  - dashboard/aio/deploy/recommended.yaml
+
+images:
+  - name: kubernetesui/metrics-scraper
+    newName: kubernetesui/metrics-scraper
+    newTag: v1.0.2
