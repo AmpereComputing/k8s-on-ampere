@@ -85,9 +85,8 @@ function cni() {
             mkdir -p "${CANAL_DIR}/overlays/${CANAL_VER}/canal"
             curl -o "${CANAL_DIR}/overlays/${CANAL_VER}/canal/canal.yaml" "$CANAL_URL/canal.yaml"
            
-            sed '/image:/ s/$/-arm64/' "${CANAL_DIR}/overlays/${CANAL_VER}/canal/canal.yaml" > "${CANAL_DIR}/canal-arm64.yaml"  
             # canal doesnt pass kustomize validation
-            kubectl apply -f "${CANAL_DIR}/canal-arm64.yaml"
+            kubectl apply -k "${CANAL_DIR}/overlays/${CANAL_VER}"
             ;;
         cilium)
 
