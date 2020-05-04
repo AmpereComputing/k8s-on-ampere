@@ -1,8 +1,10 @@
-# How to setup the cluster
+# Kubernetes on Ampere
 
 This repository contains necessary manifests and scripts for setting up a Kubernetes cluster
 on Ampere. While the goal is to facilitate automated setup of a hybrid cluster, it currently
 just works on aarch64/ARM64. For usage information, see the [getting started guide](getting-started.md).
+
+For details on next steps, plans, see the following [GitHub project dashboard](https://github.com/egernst/k8s-on-ampere/projects)
 
 ## Reference stack components
 
