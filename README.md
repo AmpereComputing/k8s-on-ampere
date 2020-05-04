@@ -22,18 +22,40 @@ For details on next steps, plans, see the following [GitHub project dashboard](h
 
 ## ARM support status
 
-| component | container image | build  | container  | mult-arch |
+Support for aarch64 varies across projects, including the ones utilized in this
+reference stack. The level of support for each component is described below. In
+the worst case, a project does not have support for building aarch64. For those that
+do, not all provide artifacts. If artifacts are provided, they aren't necessarily available
+in a standard (that is, hosted by the project) container image. In the best case, aarch64
+is built and deployed using multi-architecture container images. In that case, the same manifest
+can be shared between architectures, allowing ease of deployment in a 'mixed cluster.'
+
+The table below provides a summary of status for the components in this reference stack
+
+| component | container image (name) | build support  | container/artifacts provided  | multi-arch container support |
 |-----------|-----------------|--------|------------|-----------|
-|  CNI-canal    |   <all>         | yes | yes   |  NO  |
-|  core-metrics    |   <all>         | yes | yes   |  NO  |
-|  dashboard    |   <all>         |  |    |    |
-|  Elastic/fluentd   |   <all>         |  |    |    |
-|  prometheus    |   grafana  | yes  | yes  | yes |
-|  prometheus    |   (rest)  | yes | no  | no |
-|  rook     |   <all>         | yes | yes   |  yes  |
-|  kata  |   kata-deploy | yes | no  | no |
-|  ingres (nginx) | <all> | yes | yes  | yes |
-|  metallb | <all> | yes | yes  | yes |
+|  CNI-canal    |   all       | yes    | yes        |  no       |
+|  core-metrics |   all       | yes    | yes        |  no       |
+|  dashboard    |             |        |            |           |
+|  EFK      |  fluentd        | yes    |       yes  |     no    |
+|  EFK      | elasticsearch   |  yes   |   no       |  no       |
+|  EFK      |     kibana      |  no    |   no       |  no       |
+|  prometheus |      grafana  |   yes  | yes        | yes       |
+|  prometheus |   (rest)      |    yes |        no  | no        |
+|  rook     |     all         | yes    | yes        |  yes      |
+|  kata  |   kata-deploy      | yes    | no         | no        |
+|  gvisor  |  n/a             | yes    | no release bins |  no  |
+|  ingres (nginx) | (all)     | yes    | yes         | yes      |
+|  metallb | (all)            | yes    | yes         | yes      |
+
+## Future work
+
+- Once multi-arch support is enabled for the entire reference stack, the even better best case is making sure that the projects run optimally on aarch64. It will be interesting to profile some of the key infrastructure components and see where utilizing latest ISA features (ie, built with latest compilers/tools) could result in improved performance.
+- Expand to include other typical production components, like:
+  - security filtering,
+  - service mesh,
+  - more CNI options,
+  - expanded node exporters
 
 ## Credits
 
