@@ -258,9 +258,11 @@ function minimal() {
 function all() {
     minimal
     metrics
-    storage
     monitoring
     miscellaneous
+    # Storage succeeds in started, but has an error signal which will exit this script.
+    # TODO: Fix, but for now just to this last. Hacky, i know...
+    storage
 }
 
 function get_repo() {
