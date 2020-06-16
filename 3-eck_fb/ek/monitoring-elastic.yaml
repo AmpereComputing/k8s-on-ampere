@@ -1,0 +1,36 @@
+---
+apiVersion: elasticsearch.k8s.elastic.co/v1beta1
+kind: Elasticsearch
+metadata:
+  name: quickstart
+spec:
+  version: 7.5.0
+  nodeSets:
+  - count: 1
+    name: all-nodes
+    config:
+      node.master: true
+      node.data: true
+      node.ingest: true
+      node.store.allow_mmap: false
+    podTemplate:
+      spec:
+        nodeSelector:
+          beta.kubernetes.io/arch: amd64
+        volumes:
+        - name: elasticsearch-data
+          emptyDir: {}
+---
+apiVersion: kibana.k8s.elastic.co/v1beta1
+kind: Kibana
+metadata:
+  name: quickstart
+spec:
+  podTemplate:
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/arch: amd64
+  version: 7.5.0
+  count: 1
+  elasticsearchRef:
+    name: quickstart

@@ -217,12 +217,29 @@ function ingres() {
 }
 
 function efk() {
-    #
-    # Need (latest) images for kibana, elasticsearch as well as fluentd
-    #
 
-    echo "not supported"
-    exit 1
+    ECK_VERSION="1.1.2"
+    ECK_YAML="https://download.elastic.co/downloads/eck/${ECK_VERSION}/all-in-one.yaml"
+    ECK_DIR="3-eck_fb"
+
+    wget "$ECK_YAML"
+    mv all-in-one.yaml "${ECK_DIR}/overlays/${ECK_VERSION}"
+    kubectl apply -k "${ECK_DIR}/overlays/${ECK_VERSION}"
+
+
+    kubectl apply -f "${ECK_DIR}/ek"
+
+    while [[ $(kubectl get kibana -o=jsonpath='{.items[0].status.health}') != "green" ]]; do echo "waiting for kibana" && sleep 5; done
+
+    kubectl apply -f "${ECK_DIR}/fluent-bit/fluent-bit-role-sa.yaml"
+    kubectl apply -f "${ECK_DIR}/fluent-bit/fluent-bit-configmap.yaml"
+    kubectl apply -f "${ECK_DIR}/fluent-bit/fluent-bit-ds.yaml"
+
+    expected=$(kubectl get ds fluent-bit -o json | jq '.status.desiredNumberScheduled')
+    while [[ $(kubectl get ds fluent-bit -o=jsonpath="{.status.numberReady}") != "$expected" ]]; do echo "waiting for ds" && sleep 5; done
+
+
+    echo "EFK is up"
 }
 
 function metallb() {
@@ -292,6 +309,7 @@ command_handlers[init]=cluster_init
 command_handlers[cni]=cni
 command_handlers[minimal]=minimal
 command_handlers[dashboard]=dashboard
+command_handlers[efk]=efk
 command_handlers[metrics]=metrics
 command_handlers[all]=all
 command_handlers[help]=print_usage_exit
