@@ -2,11 +2,6 @@ resources:
   - canal/canal.yaml
 
 images:
-  - name: calico/cni
-    newTag: v3.10.3-arm64
-  - name: calico/pod2daemon-flexvol
-    newTag: v3.10.3-arm64
   - name: quay.io/coreos/flannel:v0.11.0
-    newTag: v0.11.0-arm64
-  - name: calico/node
-    newTag: v3.10.3-arm64
+    newName: egernst/coreos-flannel
+    newTag: v0.11.0
