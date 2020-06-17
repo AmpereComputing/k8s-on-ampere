@@ -278,7 +278,7 @@ function all() {
     miscellaneous
     # Storage succeeds in started, but has an error signal which will exit this script.
     # TODO: Fix, but for now just to this last. Hacky, i know...
-    storage
+    efk
 }
 
 function get_repo() {
