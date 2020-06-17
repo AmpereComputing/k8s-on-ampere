@@ -109,9 +109,6 @@ function metrics() {
     get_repo "${METRICS_URL}" "${METRICS_DIR}/overlays/${METRICS_VER}"
     set_repo_version "${METRICS_VER}" "${METRICS_DIR}/overlays/${METRICS_VER}/metrics-server"
 
-    # HACK: to start let's just use arm:
-    sed '/kubernetes.io\/arch/d' "${METRICS_DIR}/overlays/${METRICS_VER}/metrics-server/deploy/1.8+/metrics-server-deployment.yaml" | sed 's/amd64/arm64/' > "${METRICS_DIR}/overlays/${METRICS_VER}/metrics-server/deploy/1.8+/metrics-server-deployment-arm64.yaml"
-    
     kubectl apply -k "${METRICS_DIR}/overlays/${METRICS_VER}"
 }
 

@@ -7,7 +7,8 @@ resources:
   - metrics-server/deploy/1.8+/metrics-server-service.yaml
   - metrics-server/deploy/1.8+/resource-reader.yaml
 
+# We use the 3.7 because it supports multi-arch manifest:
 images:
   - name: k8s.gcr.io/metrics-server-amd64
-    newName: k8s.gcr.io/metrics-server-arm64
-    newTag: v0.3.6
+    newName: gcr.io/k8s-staging-metrics-server/metrics-server
+    newTag: v0.3.7
